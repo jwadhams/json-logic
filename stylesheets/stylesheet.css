@@ -542,7 +542,21 @@ aside a.button {
   padding-left: 64px;
   margin-bottom: 20px;
   font-size: 21px;
-  background: transparent url(../images/download-button.png) 0 0 no-repeat;
+  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
+  overflow:hidden;
+  border-radius:6px;
+  position:relative;
+}
+aside a.button:before{
+	display:block;
+	content:"";
+  background: transparent url(../images/github-button.png) -3px -3px no-repeat;
+  height:70px;
+  width:75px;
+  position:absolute;
+  top:0px;
+  left:0px;
+	
 }
 
 code, pre {
@@ -741,22 +755,6 @@ dl dd {
   font-weight: 100;
 }
 
-footer {
-  padding-top: 20px;
-  padding-bottom: 30px;
-  margin-top: 40px;
-  font-size: 13px;
-  color: #aaa;
-  background: transparent url('../images/hr.png') 0 0 no-repeat;
-}
-
-footer a {
-  color: #666;
-}
-footer a:hover {
-  color: #444;
-}
-
 /* MISC */
 .clearfix:after {
   display: block;
@@ -878,4 +876,3 @@ footer a:hover {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
-
