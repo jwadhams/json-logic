@@ -1,0 +1,114 @@
+---
+title: Play with JsonLogic in your Browser
+layout: default
+---
+
+<style>
+	#rule, #data, #output{
+		height:200px;
+		margin:0 0 10px;
+	}
+	textarea{
+		display:block;
+		width:100%;
+	}
+	.alert{
+		border-radius:6px;
+		border:2px solid black;
+		padding:6px;
+	}
+	.alert.alert-danger{
+		border:2px solid #660000;
+		background-color:#ffa0a0;
+		color:#880000;
+	}
+	.alert.alert-success{
+		border:2px solid #006600;
+		background-color:#a0ffa0;
+		color:#008800;
+	}
+
+	@keyframes bam { from {background-color: #a0ffa0;} to {background-color: transparent;} }
+	@-webkit-keyframes bam { from {background-color: #a0ffa0;} to {background-color: transparent;} }
+
+	.bam {
+		animation-name: bam;
+		animation-duration: 2s;
+		-webkit-animation-name: bam;
+		-webkit-animation-duration: 2s;
+	}
+</style>
+
+
+<h2>Rule:</h2>
+<textarea required class="form-control" id="rule"></textarea>
+<div class="alert" id="message-rule" style="display:none;"></div>
+
+<h2>Data:</h2>
+<textarea class="form-control" id="data"></textarea>
+<div class="alert" id="message-data" style="display:none;"></div>
+
+<button id="compute">Compute</button>
+
+<h2>Output:</h2>
+<pre id="output"></pre>
+<div class="alert alert-danger" id="message-compute" style="display:none;"></div>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/jwadhams/json-logic-js/master/logic.js"></script>
+<script>
+	function lint(element){
+		var $element = $(element),
+			text = $element.val(),
+			output,
+			$message = $("#message-" + $element.attr("id") );
+
+		if(text === ""){
+			if($element.attr("required")){
+				$message.removeClass("alert-success").addClass("alert-danger")
+					.text("Can't be blank").fadeIn();
+				return false;
+			}else{
+				$message.removeClass("alert-danger").addClass("alert-success").text("OK (null)").fadeIn();
+				return true;
+			}
+		}
+
+		try{
+			output = JSON.parse(text);
+			$message.removeClass("alert-danger").addClass("alert-success").text("OK").fadeIn();
+			return true;
+		}catch(e){
+			$message.removeClass("alert-success").addClass("alert-danger").text(e.message).fadeIn();
+			return false;	
+		}
+
+	}
+
+	$("#compute").click(function(){
+		if(lint("#rule") && lint("#data")){
+			var rule = JSON.parse($("#rule").val()),
+				data = $("#data").val() === "" ? null : JSON.parse($("#data").val()),
+				output;
+			try{
+				output = jsonLogic(rule, data);
+				console.log(output);
+				$("#message-compute").fadeOut();
+				$("#output").text( JSON.stringify(output, null, 4) ).removeClass("bam");
+				setTimeout(function(){
+					$("#output").addClass("bam");
+				}, 1)
+			}catch(e){
+				$("#output").text("");
+				$("#message-compute").text(e.message).fadeIn();
+			}
+		}
+
+		//else: They make their own noise.
+	});
+
+
+</script>
+
