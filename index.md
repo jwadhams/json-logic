@@ -104,23 +104,6 @@ jsonLogic(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
     
-## Supported Operations
+## What next?
 
-  - `==` 
-  - `===` 
-  - `!=`
-  - `!==`
-  - `>`
-  - `>=`
-  - `<`
-  - `<=`
-  - `!` - Unary negation
-  - `and`
-  - `or`
-  - `?:` - [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator), like `a ? b : c;`
-  - `in` - Value in array (e.g., `{"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}`) 
-    - *or* substring in string (e.g., `{"in":["Spring", "Springfield"]}`)
-  - `var` - Retrieve data from the provided data object
-  - `log` - Logs the first value to console, then passes it through unmodified.
-  
-
+Check out the complete list of [supported operations]({{site.base_url}}/operations.html) or try out your own rules in the [web playground]({{site.base_url}}/play.html).

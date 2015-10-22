@@ -507,6 +507,21 @@ aside#sidebar {
   background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
 }
 
+#toc {
+	font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+    list-style: none;
+    padding: 0;
+	font-size:18px;
+	line-height:28px;
+}
+#toc li{
+
+}
+#toc li:before{
+	content:">";
+	margin-right:5px;
+}
+
 aside#sidebar p.repo-owner,
 aside#sidebar p.repo-owner a {
   font-weight: bold;
