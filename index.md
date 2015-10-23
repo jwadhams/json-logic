@@ -3,13 +3,18 @@ layout: default
 title: JsonLogic
 ---
 
+## Why?
+
+If you're looking for a way to share logic between front-end and back-end code, and even store it in a database, JsonLogic might be a fit for you.
+
+JsonLogic is *not* a full programming language&mdash;there are no setters, no loops, no functions or gotos. But that's one of it's *virtues*: a JsonLogic rule is a language-agnostic, safe subset of operations, that can encode complex logic that leads to a single decision.  
 
 ## Virtues
 
   1. **Terse.**
   1. **Consistent.** `{"operator" : ["values" ... ]}`  Always.
-  1. **Secure.** We never `eval()`. Rules only have access to data you provide.
-  1. **Flexible.** Most operands are 1 line of code.
+  1. **Secure.** We never `eval()`. Rules only have read access to data you provide, and no write access to anything. Deterministic execution time.
+  1. **Flexible.** Easy to add new operators, easy to build complex structures from simple legos.
 
 
 ## Examples
