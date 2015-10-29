@@ -3,18 +3,21 @@ layout: default
 title: JsonLogic
 ---
 
-## Why?
+## Why use JsonLogic?
 
 If you're looking for a way to share logic between front-end and back-end code, and even store it in a database, JsonLogic might be a fit for you.
 
-JsonLogic is *not* a full programming language&mdash;there are no setters, no loops, no functions or gotos. But that's one of it's *virtues*: a JsonLogic rule is a language-agnostic, safe subset of operations, that can encode complex logic that leads to a single decision.  
+
+JsonLogic isn't a full programming language. It's a small, safe way to delegate one decision. You could store a rule in a database to decide later. You could send that rule from back-end to front-end so the decision is made immediately from user input. Because the rule *is* data, you can even build it dynamically from user actions or GUI input.
+
+JsonLogic has no setters, no loops, no functions or gotos. One rule leads to one decision, with no side effects and deterministic computation time.
 
 ## Virtues
 
   1. **Terse.**
   1. **Consistent.** `{"operator" : ["values" ... ]}`  Always.
-  1. **Secure.** We never `eval()`. Rules only have read access to data you provide, and no write access to anything. Deterministic execution time.
-  1. **Flexible.** Easy to add new operators, easy to build complex structures from simple legos.
+  1. **Secure.** We never `eval()`. Rules only have read access to data you provide, and no write access to anything.
+  1. **Flexible.** Easy to add new operators, easy to build complex structures.
 
 
 ## Examples
@@ -25,7 +28,7 @@ jsonLogic( { "==" : [1, 1] } );
 // true
 ```
 
-This is a simple test, equivalent to `1 == 1`.  A few things about the format:
+This is a simple rule, equivalent to `1 == 1`.  A few things about the format:
 
   1. The operator is always in the "key" position. There is only one key per JsonLogic rule.
   1. The values are typically an array.
@@ -49,7 +52,9 @@ In an infix language (like JavaScript) this could be written as:
 ```js
 ( (3 > 1) && (1 < 3) )
 ```
-    
+
+JsonLogic is, effectively, an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree), so order of operations is unambiguous.
+
 ### Data-Driven
 
 Obviously these rules aren't very interesting if they can only take static literal data. Typically `jsonLogic` will be called with a rule object and a data object. You can use the `var` operator to get attributes of the data object:
