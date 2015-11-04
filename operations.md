@@ -79,6 +79,44 @@ Less than or equal to:
 //true
 ```
 
+## Between
+
+You can use a special case of `<` and `<=` to test that one value is between two others:
+
+Between exclusive:
+
+```js
+{"<" : [1, 2, 3]}
+//true
+
+{"<" : [1, 1, 3]}
+//false, middle can't be equal to left or right
+
+{"<" : [1, 4, 3]}
+//false
+```
+
+Between inclusive:
+
+```js
+{"<=" : [1, 2, 3]}
+//true
+
+{"<=" : [1, 1, 3]}
+//true
+
+{"<=" : [1, 4, 3]}
+//false
+```
+
+This is most useful with data:
+
+```js
+liquid = jsonLogic(
+	{ "<": [0, {"var":"temp"}, 100]}, //Is the temp between 0 and 100 degrees?
+	{"temp" : 37}
+);
+```
 
 ## `!`
 Unary negation. Takes just one argument.
