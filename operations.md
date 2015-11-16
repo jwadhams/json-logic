@@ -213,6 +213,18 @@ Can also test if the first argument is a substring of the second argument:
 //true
 ```
 
+## `max` and `min`
+
+Return the maximum or minimum from a list of values.
+
+```js
+{"max":[1,2,3]}
+//3
+
+{"min":[1,2,3]}
+//1
+```
+
 ## `var` 
 
 Retrieve data from the provided data object.
