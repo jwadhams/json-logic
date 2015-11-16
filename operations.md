@@ -225,6 +225,36 @@ Return the maximum or minimum from a list of values.
 //1
 ```
 
+
+## Arithmetic, `+` `-` `*` `/`
+
+Addition, subtraction, multiplication, and division.
+
+```js
+{"+":[1,1]}
+//2
+
+{"*":[2,3]}
+//6
+
+{"-":[3,2]}
+//1
+
+{"/":[2,4]}
+//0.5
+```
+
+Because addition and multiplication are associative, they happily take as many args as you want:
+
+```js
+{"+":[1,1,1,1,1]}
+//5
+
+{"*":[2,2,2,2,2]}
+//32
+```
+
+
 ## `var` 
 
 Retrieve data from the provided data object.
