@@ -119,7 +119,7 @@ liquid = jsonLogic(
 ```
 
 ## `!`
-Unary negation. Takes just one argument.
+Logical negation ("not"). Takes just one argument.
 
 ```js
 {"!": [true]}
@@ -254,6 +254,15 @@ Because addition and multiplication are associative, they happily take as many a
 //32
 ```
 
+Passing just one argument to `-` returns its arithmetic negative (additive inverse).
+
+```js
+{"-":[2]}
+//-2
+
+{"-":[-2]}
+//2
+```
 
 ## `var` 
 
