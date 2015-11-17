@@ -278,6 +278,16 @@ jsonLogic(
 // 1
 ```
 
+You can supply a default, as the second argument, for values that might be missing in the data object:
+
+```js
+jsonLogic(
+	{ "var" : ["z", 26] }, // Rule
+	{ a : 1, b : 2 }   // Data
+);
+// 26
+```
+
 If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) on unary operators to skip the array around values:
 
 ```js
