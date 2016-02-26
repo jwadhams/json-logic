@@ -186,12 +186,6 @@
 	[{"if":[true, "apple", true, "banana", false, "carrot", "date"]}, null, "apple"],
 	[{"if":[true, "apple", true, "banana", true, "carrot", "date"]}, null, "apple"],
 
-
-
-
-
-
-
 	"# Compound Tests",
 	[ {"and":[{">":[3,1]},true]}, {}, true ],
 	[ {"and":[{">":[3,1]},false]}, {}, false ],

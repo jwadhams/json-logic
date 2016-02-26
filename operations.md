@@ -112,7 +112,7 @@ Between inclusive:
 This is most useful with data:
 
 ```js
-liquid = jsonLogic(
+liquid = jsonLogic.apply(
 	{ "<": [0, {"var":"temp"}, 100]}, //Is the temp between 0 and 100 degrees?
 	{"temp" : 37}
 );
@@ -271,7 +271,7 @@ Retrieve data from the provided data object.
 Typically the data is an object in the JSON sense, so in which case the argument to `var` is a property name.
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{ "var" : ["a"] }, // Rule
 	{ a : 1, b : 2 }   // Data
 );
@@ -281,7 +281,7 @@ jsonLogic(
 You can supply a default, as the second argument, for values that might be missing in the data object:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{ "var" : ["z", 26] }, // Rule
 	{ a : 1, b : 2 }   // Data
 );
@@ -291,7 +291,7 @@ jsonLogic(
 If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) on unary operators to skip the array around values:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{ "var" : "a" },
 	{ a : 1, b : 2 }
 );
@@ -301,7 +301,7 @@ jsonLogic(
 You can also use the `var` operator to access an array by numeric index:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{"var" : 1 },
 	[ "apple", "banana", "carrot" ]
 );
@@ -318,7 +318,7 @@ var rules = { "and" : [
 
 var data = { "temp" : 100, "pie" : { "filling" : "apple" } };
 
-jsonLogic(rules, data);
+jsonLogic.apply(rules, data);
 // true
 ```
 
@@ -342,7 +342,7 @@ Concatenate all the supplied arguments. Note that this is not a join or implode 
 {"cat": ["I love", " pie"]}
 //"I love pie"
 
-jsonLogic(
+jsonLogic.apply(
 	{"cat": ["I love ", {"var":"filling"} " pie"]}, // rule
 	{"filling":"apple", "temp":110}                 // data
 );
@@ -365,7 +365,7 @@ In Javascript:
 ```js
 var rule = {"?:": [{"%": [{"var":"i"}, 2]}, "odd", "even"]};
 for(var i = 1; i <= 4 ; i++){
-	console.log(i, jsonLogic(rule, {"i":i}));
+	console.log(i, jsonLogic.apply(rule, {"i":i}));
 }
 /* Outputs:
 1 "odd"
