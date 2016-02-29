@@ -155,23 +155,22 @@ At a more sophisticated level, `or` returns the first <a href="http://www.sitepo
 //"apple"
 ```
 
-
-
-
 ## `and`
 `and` can be used for simple boolean tests, with 1 or more arguments.
 
 ```js
 {"and": [true, true]}
 //true
+
+{"and": [true, true, true, false]}
+//false
+
+
 ```
 
 At a more sophisticated level, `and` returns the first <a href="http://www.sitepoint.com/javascript-truthy-falsy/">falsy</a> argument, or the last argument.
 
 ```js
-{"and": [false, true]}
-//false
-
 {"and": [true, "apple", false]}
 //false
 
@@ -181,6 +180,7 @@ At a more sophisticated level, `and` returns the first <a href="http://www.sitep
 
 ## `if`
 The `if` statement typically takes 3 arguments: a condition (if), what to do if it's true (then), and what to do if it's false (else), like:
+
 ```js
 {"if" : [ true, "yes", "no" ]}
 //"yes"
@@ -190,6 +190,7 @@ The `if` statement typically takes 3 arguments: a condition (if), what to do if 
 ```
 
 If can also take more than 3 arguments, and will pair up arguments like if/then elseif/then elseif/then else. Like:
+
 ```js
 {"if" : [ 
 	{"<": [{"var":"temp"}, 0] }, "freezing", 
@@ -298,7 +299,7 @@ for(var i = 1; i <= 4 ; i++){
 
 Retrieve data from the provided data object.
 
-Typically the data is an object in the JSON sense, so in which case the argument to `var` is a property name.
+Typically data is an object in the JSON sense, in which case the argument to `var` is a property name.
 
 ```js
 jsonLogic.apply(

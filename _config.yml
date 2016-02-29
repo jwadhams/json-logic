@@ -1,6 +1,4 @@
 name: JsonLogic
-markdown: redcarpet
 description: Build complex rules, serialize them as JSON, share them between front-end and back-end
 baseurl: ''
-gems:
-  - jekyll-sitemap
+gems: [ jekyll-sitemap ]
