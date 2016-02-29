@@ -157,6 +157,27 @@
 	[{"if":[ 3.1416, "apple", "banana"]}, null, "apple"],
 	[{"if":[ -1, "apple", "banana"]}, null, "apple"],
 
+	"Truthy and falsy definitions matter in Boolean operations",
+	[{"!" : [ [] ]}, {}, true],
+	[{"!!" : [ [] ]}, {}, false],
+	[{"and" : [ [], true ]}, {}, [] ],
+	[{"or" : [ [], true ]}, {}, true ],
+
+	[{"!" : [ 0 ]}, {}, true],
+	[{"!!" : [ 0 ]}, {}, false],
+	[{"and" : [ 0, true ]}, {}, 0 ],
+	[{"or" : [ 0, true ]}, {}, true ],
+
+	[{"!" : [ "" ]}, {}, true],
+	[{"!!" : [ "" ]}, {}, false],
+	[{"and" : [ "", true ]}, {}, "" ],
+	[{"or" : [ "", true ]}, {}, true ],
+
+	[{"!" : [ "0" ]}, {}, false],
+	[{"!!" : [ "0" ]}, {}, true],
+	[{"and" : [ "0", true ]}, {}, true ],
+	[{"or" : [ "0", true ]}, {}, "0" ],
+
 	"If the conditional is logic, it gets evaluated",
 	[{"if":[ {">":[2,1]}, "apple", "banana"]}, null, "apple"],
 	[{"if":[ {">":[1,2]}, "apple", "banana"]}, null, "banana"],
@@ -246,8 +267,5 @@
 		{"financing":false},
 		["vin"]
 	]
-
-
-
 
 ]
