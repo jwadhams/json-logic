@@ -179,24 +179,28 @@ At a more sophisticated level, `and` returns the first <a href="http://www.sitep
 //3.14
 ```
 
-
-
-
-## `?:`
-Acts as a [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator) operator, like `a ? b : c;`
-
-Effectively, you can use it as an if statement.
-
-*Note:* that both the `b` and `c` paths are evaluated in their entirety, regardless of the value of `a`. Because there are no state-changing operations in JsonLogic, this is only a performance note.
-
+## `if`
+The `if` statement typically takes 3 arguments: a condition (if), what to do if it's true (then), and what to do if it's false (else), like:
 ```js
-{"?:" : [true, "apple", "banana"]}
-//"apple"
+{"if" : [ true, "yes", "no" ]}
+//"yes"
 
-{"?:" : [{"==": [1,1]}, "apple", "banana"]}
-//"apple"
+{"if" : [ false, "yes", "no" ]}
+//"no"
 ```
 
+If can also take more than 3 arguments, and will pair up arguments like if/then elseif/then elseif/then else. Like:
+```js
+{"if" : [ 
+	{"<": [{"var":"temp"}, 0] }, "freezing", 
+	{"<": [{"var":"temp"}, 100] }, "liquid", 
+	"gas" 
+]}
+```
+
+See the [Fizz Buzz implementation]({{site.base_url}}/fizzbuzz.html) for a larger, sillier example.
+
+JsonLogic also supports a [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator) operator, `?:` that is implemented as an alias to `if`, and behaves exactly as described above.
 
 ## `in`
 Can test if the first argument is in the second argument, when the second argument is an array:
@@ -264,6 +268,32 @@ Passing just one argument to `-` returns its arithmetic negative (additive inver
 //2
 ```
 
+## `%`
+
+[Modulo](https://en.wikipedia.org/wiki/Modulo_operation).  Finds the remainder after the first argument is divided by the second argument.
+
+```js
+{"%": [101,2]}
+//1
+```
+
+This can be paired with a loop in the language that parses JsonLogic to create stripes or other effects.  
+
+In Javascript:
+
+```js
+var rule = {"?:": [{"%": [{"var":"i"}, 2]}, "odd", "even"]};
+for(var i = 1; i <= 4 ; i++){
+	console.log(i, jsonLogic.apply(rule, {"i":i}));
+}
+/* Outputs:
+1 "odd"
+2 "even"
+3 "odd"
+4 "even"
+*/
+```
+
 ## `var` 
 
 Retrieve data from the provided data object.
@@ -322,6 +352,53 @@ jsonLogic.apply(rules, data);
 // true
 ```
 
+## `missing`
+
+Takes an array of data keys to search for (same format as `var`). Returns an array of any keys that are missing from the data object, or an empty array.
+
+```js
+jsonLogic.apply(
+	{"missing":["a", "b"]},
+	{"a":"apple", "c":"carrot"}
+);
+// [ "b" ]
+
+jsonLogic.apply(
+	{"missing":["a", "b"]},
+	{"a":"apple", "b":"banana"}
+);
+// [ ]
+```
+
+Note, in JsonLogic, empty arrays are falsy. So you can use `missing` with `if` like:
+
+```
+jsonLogic.apply(
+	{"if":[
+		{"missing":["a", "b"]},
+		"Not enough fruit",
+		"OK to proceed"
+	]},
+	{"a":"apple", "b":"banana"}
+);
+// "OK to proceed"
+```
+
+## `merge`
+
+Takes one or more arrays, and merges them into one array. If arguments aren't arrays, they get cast to arrays.
+
+```js
+{"merge":[ [1,2], [3,4] ]}
+// [1,2,3,4]
+
+{"merge":[ 1, 2, [3,4] ]}
+// [1,2,3,4]
+```
+
+Merge can be especially useful when defining complex `missing` rules, like which fields are required in a document. For example, the DMV always needs the owner's ZIP code, but doesn't need the co-signer's ZIP code unless there is a cosigner.
+
+
 ## `log` 
 
 Logs the first value to console, then passes it through unmodified.
@@ -349,32 +426,5 @@ jsonLogic.apply(
 //"I love apple pie"
 ```
 
-## `%`
-
-[Modulo](https://en.wikipedia.org/wiki/Modulo_operation).  Finds the remainder after the first argument is divided by the second argument.
-
-```js
-{"%": [101,2]}
-//1
-```
-
-This can be paired with a loop in the language that parses JsonLogic to create stripes or other effects.  
-
-In Javascript:
-
-```js
-var rule = {"?:": [{"%": [{"var":"i"}, 2]}, "odd", "even"]};
-for(var i = 1; i <= 4 ; i++){
-	console.log(i, jsonLogic.apply(rule, {"i":i}));
-}
-/* Outputs:
-1 "odd"
-2 "even"
-3 "odd"
-4 "even"
-*/
-```
-
-See the [Fizz Buzz implementation]({{site.base_url}}/fizzbuzz.html) for a totally silly example.
 
 
