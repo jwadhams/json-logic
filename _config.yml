@@ -1,4 +1,10 @@
 name: JsonLogic
 description: Build complex rules, serialize them as JSON, share them between front-end and back-end
 baseurl: ''
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
 gems: [ jekyll-sitemap ]
