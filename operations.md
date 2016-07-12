@@ -38,7 +38,7 @@ title: Supported Operations
 
 # Accessing Data
 
-## `var` 
+## `var`
 
 Retrieve data from the provided data object.
 
@@ -77,7 +77,7 @@ The key passed to var can use dot-notation to get the property of a property (to
 
 ```js
 jsonLogic.apply(
-	{ "var" : "champ.name" }, 
+	{ "var" : "champ.name" },
 	{
 		champ : { name : "Fezzig", height : 223 },
 		challenger : { name : "Dread Pirate Roberts", height : 183 }
@@ -142,6 +142,41 @@ jsonLogic.apply(
 // "OK to proceed"
 ```
 
+## `missing_some`
+
+Takes a minimum number of data keys that are required, and an array of keys to search for (same format as `var` or `missing`).  Returns an empty array if the minimum is met, or an array of the missing keys otherwise.
+
+```
+jsonLogic.apply(
+  {"missing_some":[1, ["a", "b", "c"]]},
+	{"a":"apple"}
+);
+// []
+
+jsonLogic.apply(
+  {"missing_some":[2, ["a", "b", "c"]]},
+	{"a":"apple"}
+);
+// ["b", "c"]
+```
+
+This is useful if you're using `missing` to track required fields, but occasionally need to require N of M fields.
+
+```
+jsonLogic.apply(
+  {"if" :[
+    {"merge": [
+      {"missing":["first_name", "last_name"]},
+      {"missing_some":[1, ["cell_phone", "home_phone"] ]},
+    ]},
+    "We require first name, last name, and one phone number.",
+    "OK to proceed"
+  ]},
+	{"first_name":"Bruce", "last_name":"Wayne"}
+);
+// "We require first name, last name, and one phone number.",
+```
+
 
 # Logic and Boolean Operations
 
@@ -159,16 +194,16 @@ The `if` statement typically takes 3 arguments: a condition (if), what to do if 
 If can also take more than 3 arguments, and will pair up arguments like if/then elseif/then elseif/then else. Like:
 
 ```js
-{"if" : [ 
-	{"<": [{"var":"temp"}, 0] }, "freezing", 
-	{"<": [{"var":"temp"}, 100] }, "liquid", 
-	"gas" 
+{"if" : [
+	{"<": [{"var":"temp"}, 0] }, "freezing",
+	{"<": [{"var":"temp"}, 100] }, "liquid",
+	"gas"
 ]}
 ```
 
 See the [Fizz Buzz implementation]({{site.base_url}}/fizzbuzz.html) for a larger example.
 
-## `==` 
+## `==`
 Tests equality, with type coercion. Requires two arguments.
 
 ```js
@@ -182,7 +217,7 @@ Tests equality, with type coercion. Requires two arguments.
 // true
 ```
 
-## `===` 
+## `===`
 Tests strict equality. Requires two arguments.
 
 ```js
@@ -239,7 +274,7 @@ Logical negation ("not"). Takes just one argument.
 // true
 ```
 
-At a more sophisticated level, `or` returns the first [truthy]({{ site.baseurl }}/truthy.html) argument, or the last argument. 
+At a more sophisticated level, `or` returns the first [truthy]({{ site.baseurl }}/truthy.html) argument, or the last argument.
 
 ```js
 {"or": [false, true]}
@@ -447,11 +482,11 @@ Takes one or more arrays, and merges them into one array. If arguments aren't ar
 Merge can be especially useful when defining complex `missing` rules, like which fields are required in a document. For example, the this vehicle paperwork always requires the car's VIN, but only needs the APR and term if you're financing.
 
 ```js
-var missing = {"missing" : 
-	{ "merge" : [ 
-		"vin", 
+var missing = {"missing" :
+	{ "merge" : [
+		"vin",
 		{"if": [{"var":"financing"}, ["apr", "term"], [] ]}
-	]} 
+	]}
 };
 
 jsonLogic.apply(rule, {"financing":true});
@@ -463,7 +498,7 @@ jsonLogic.apply(rule, {"financing":false});
 
 ## `in`
 
-If the second argument is an array, tests that the first argument is a member of the array: 
+If the second argument is an array, tests that the first argument is a member of the array:
 
 ```js
 {"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}
@@ -475,7 +510,7 @@ If the second argument is an array, tests that the first argument is a member of
 
 ## `in`
 
-If the second argument is a string, tests that the first argument is a substring: 
+If the second argument is a string, tests that the first argument is a substring:
 
 ```js
 {"in":["Spring", "Springfield"]}
@@ -500,7 +535,7 @@ jsonLogic.apply(
 
 # Miscellaneous
 
-## `log` 
+## `log`
 
 Logs the first value to console, then passes it through unmodified.
 
@@ -511,5 +546,3 @@ This can be especially helpful when debugging a large rule.
 // Console receives "apple"
 // Command returns "apple"
 ```
-
-
