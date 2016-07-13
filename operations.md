@@ -10,6 +10,7 @@ title: Supported Operations
 - [Accessing Data](#accessing-data)
   - [`var`](#var)
   - [`missing`](#missing)
+  - [`missing_some`](#missing_some)
 - [Logic and Boolean Operations](#logic-and-boolean-operations)
   - [`if`](#if)
   - [`==`](#)
@@ -46,8 +47,8 @@ Most JsonLogic rules operate on data supplied at run-time.  Typically this data 
 
 ```js
 jsonLogic.apply(
-	{ "var" : ["a"] }, // Rule
-	{ a : 1, b : 2 }   // Data
+  { "var" : ["a"] }, // Rule
+  { a : 1, b : 2 }   // Data
 );
 // 1
 ```
@@ -56,8 +57,8 @@ If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntacti
 
 ```js
 jsonLogic.apply(
-	{ "var" : "a" },
-	{ a : 1, b : 2 }
+  { "var" : "a" },
+  { a : 1, b : 2 }
 );
 // 1
 ```
@@ -67,8 +68,8 @@ You can supply a default, as the second argument, for values that might be missi
 
 ```js
 jsonLogic.apply(
-	{ "var" : ["z", 26] }, // Rule
-	{ a : 1, b : 2 }   // Data
+  { "var" : ["z", 26] }, // Rule
+  { a : 1, b : 2 }   // Data
 );
 // 26
 ```
@@ -77,11 +78,11 @@ The key passed to var can use dot-notation to get the property of a property (to
 
 ```js
 jsonLogic.apply(
-	{ "var" : "champ.name" },
-	{
-		champ : { name : "Fezzig", height : 223 },
-		challenger : { name : "Dread Pirate Roberts", height : 183 }
-	}
+  { "var" : "champ.name" },
+  {
+    champ : { name : "Fezzig", height : 223 },
+    challenger : { name : "Dread Pirate Roberts", height : 183 }
+  }
 );
 // "Fezzig"
 ```
@@ -90,8 +91,8 @@ You can also use the `var` operator to access an array by numeric index:
 
 ```js
 jsonLogic.apply(
-	{"var" : 1 },
-	[ "apple", "banana", "carrot" ]
+  {"var" : 1 },
+  [ "apple", "banana", "carrot" ]
 );
 // "banana"
 ```
@@ -116,28 +117,28 @@ Takes an array of data keys to search for (same format as `var`). Returns an arr
 
 ```js
 jsonLogic.apply(
-	{"missing":["a", "b"]},
-	{"a":"apple", "c":"carrot"}
+  {"missing":["a", "b"]},
+  {"a":"apple", "c":"carrot"}
 );
 // [ "b" ]
 
 jsonLogic.apply(
-	{"missing":["a", "b"]},
-	{"a":"apple", "b":"banana"}
+  {"missing":["a", "b"]},
+  {"a":"apple", "b":"banana"}
 );
 // [ ]
 ```
 
 Note, in JsonLogic, empty arrays are [falsy]({{ site.baseurl }}/truthy.html). So you can use `missing` with `if` like:
 
-```
+```js
 jsonLogic.apply(
-	{"if":[
-		{"missing":["a", "b"]},
-		"Not enough fruit",
-		"OK to proceed"
-	]},
-	{"a":"apple", "b":"banana"}
+  {"if":[
+    {"missing":["a", "b"]},
+    "Not enough fruit",
+    "OK to proceed"
+  ]},
+  {"a":"apple", "b":"banana"}
 );
 // "OK to proceed"
 ```
@@ -146,23 +147,23 @@ jsonLogic.apply(
 
 Takes a minimum number of data keys that are required, and an array of keys to search for (same format as `var` or `missing`).  Returns an empty array if the minimum is met, or an array of the missing keys otherwise.
 
-```
+```js
 jsonLogic.apply(
   {"missing_some":[1, ["a", "b", "c"]]},
-	{"a":"apple"}
+  {"a":"apple"}
 );
 // []
 
 jsonLogic.apply(
   {"missing_some":[2, ["a", "b", "c"]]},
-	{"a":"apple"}
+  {"a":"apple"}
 );
 // ["b", "c"]
 ```
 
 This is useful if you're using `missing` to track required fields, but occasionally need to require N of M fields.
 
-```
+```js
 jsonLogic.apply(
   {"if" :[
     {"merge": [
@@ -172,7 +173,7 @@ jsonLogic.apply(
     "We require first name, last name, and one phone number.",
     "OK to proceed"
   ]},
-	{"first_name":"Bruce", "last_name":"Wayne"}
+  {"first_name":"Bruce", "last_name":"Wayne"}
 );
 // "We require first name, last name, and one phone number.",
 ```
@@ -195,9 +196,9 @@ If can also take more than 3 arguments, and will pair up arguments like if/then 
 
 ```js
 {"if" : [
-	{"<": [{"var":"temp"}, 0] }, "freezing",
-	{"<": [{"var":"temp"}, 100] }, "liquid",
-	"gas"
+  {"<": [{"var":"temp"}, 0] }, "freezing",
+  {"<": [{"var":"temp"}, 100] }, "liquid",
+  "gas"
 ]}
 ```
 
@@ -296,8 +297,6 @@ At a more sophisticated level, `or` returns the first [truthy]({{ site.baseurl }
 
 {"and": [true, true, true, false]}
 // false
-
-
 ```
 
 At a more sophisticated level, `and` returns the first [falsy]({{ site.baseurl }}/truthy.html) argument, or the last argument.
@@ -376,8 +375,8 @@ This is most useful with data:
 
 ```js
 liquid = jsonLogic.apply(
-	{ "<": [0, {"var":"temp"}, 100]}, //Is the temp between 0 and 100 degrees?
-	{"temp" : 37}
+  { "<": [0, {"var":"temp"}, 100]}, //Is the temp between 0 and 100 degrees?
+  {"temp" : 37}
 );
 ```
 
@@ -455,7 +454,7 @@ In Javascript:
 ```js
 var rule = {"if": [{"%": [{"var":"i"}, 2]}, "odd", "even"]};
 for(var i = 1; i <= 4 ; i++){
-	console.log(i, jsonLogic.apply(rule, {"i":i}));
+  console.log(i, jsonLogic.apply(rule, {"i":i}));
 }
 /* Outputs:
 1 "odd"
@@ -483,10 +482,10 @@ Merge can be especially useful when defining complex `missing` rules, like which
 
 ```js
 var missing = {"missing" :
-	{ "merge" : [
-		"vin",
-		{"if": [{"var":"financing"}, ["apr", "term"], [] ]}
-	]}
+  { "merge" : [
+    "vin",
+    {"if": [{"var":"financing"}, ["apr", "term"], [] ]}
+  ]}
 };
 
 jsonLogic.apply(rule, {"financing":true});
@@ -526,8 +525,8 @@ Concatenate all the supplied arguments. Note that this is not a join or implode 
 // "I love pie"
 
 jsonLogic.apply(
-	{"cat": ["I love ", {"var":"filling"} " pie"]}, // rule
-	{"filling":"apple", "temp":110}                 // data
+  {"cat": ["I love ", {"var":"filling"} " pie"]}, // rule
+  {"filling":"apple", "temp":110}                 // data
 );
 // "I love apple pie"
 ```
