@@ -82,12 +82,11 @@ You can also pass an array of arguments into the method:
 
 ```js
 jsonLogic.apply( {"method":[
-    {"var":"foods"}, //object
+    "automaton", //object (String)
     "slice", //method
-    [ 1, 2 ] //arguments
-  ]},
-  {foods: ["apple", "banana", "carrot"]}
-); //Returns ["banana"]
+    [ 2, 8 ] //array of arguments
+  ]}
+); //Returns "tomato"
 ```
 
 
