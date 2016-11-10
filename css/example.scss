@@ -12,26 +12,17 @@
     vertical-align:top;
     text-align:left;
   }
-  td::before{
+  label{
     display:block;
     padding:1px 5px;
     background-color:#777777;
     color:white;
   }
-  .logic::before{
-    content:"Logic";
-  }
-  .data::before{
-    content:"Data";
-    margin-left:1px;
-  }
-  .result::before{
-    content:"Result";
-  }
   textarea{
     font-family:"Source Code Pro", Consolas, fixed-width;
     box-sizing: border-box;
     min-height: 20px;
+    width:100%;
     overflow-x: hidden;
     border:none;
     resize:none; //because jQuery is doing it for us, I'm not a jerk
@@ -43,7 +34,7 @@
     padding:1px 5px;
   }
   .action{
-    vertical-align:middle;
+    text-align: center;
   }
   button{
     border-radius:10px;
@@ -53,12 +44,39 @@
     background-color:#b9d5f2;
     padding:2px 10px;
   }
+  .turn{
+    cursor:pointer;
+    margin-right:10px;
 
+    &::before{
+      content:"\22ef"; //Midline ellipse,
+    }
+  }
   .bam {
     animation-name: bam;
     animation-duration: 2s;
   }
 
-  @keyframes bam { from {background-color: #a0ffa0;} to {background-color: white;} }
+  @keyframes bam { from {background-color: #b9d5f2;} to {background-color: white;} }
+
+  &.horizontal{
+    display:table;
+    .row{
+      display:table-row;
+    }
+    .row > div{
+      display:table-cell;
+    }
+    .data label{
+      margin-left:1px;
+    }
+    .action{
+      vertical-align:middle;
+    }
+    .turn::before{
+      content:"\22ee"; //Vertical ellipse,
+    }
+
+  }
 
 }

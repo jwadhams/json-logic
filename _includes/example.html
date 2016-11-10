@@ -1,14 +1,17 @@
-<table class="json-logic-example">
-  <tr>
-    <td class="logic">
-      <textarea class="logic">{{ include.rule | strip }}</textarea>
-    </td>
-    <td class="data">
-      <textarea>{{ include.data | default:'null' strip }}</textarea>
-    </td>
-    <td class="action"><button class="apply btn btn-primary">Apply</button></td>
-    <td class="result">
-      <textarea disabled></textarea>
-    </td>
-  </tr>
-</table>
+<div class="json-logic-example">
+  <div class="row">
+    <div class="logic">
+      <label><span class="turn"></span> Logic</label>
+      <textarea class="logic" rows="1">{{ include.rule | strip }}</textarea>
+    </div>
+    <div class="data">
+      <label>Data</label>
+      <textarea rows="1">{{ include.data | default:'null' strip }}</textarea>
+    </div>
+    <div class="action"><button class="apply btn btn-primary">Apply</button></div>
+    <div class="result">
+      <label>Result </label>
+      <textarea rows="1" disabled></textarea>
+    </div>
+  </div>
+</div>

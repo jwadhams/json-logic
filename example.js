@@ -41,8 +41,10 @@ $(function(){
     //Result
     try{
       result = jsonLogic.apply(logic, data);
-      console.log(result);
-      $result.text( JSON.stringify(result, null, 4) ).removeClass("bam");
+      $result
+        .val( JSON.stringify(result, null, 2) )
+        .removeClass("bam")
+        .trigger("input"); //Notify autosize
       $result_error.hide();
       setTimeout(function(){
         $result.addClass("bam");
@@ -53,7 +55,33 @@ $(function(){
 
   });
 
-
   $(".json-logic-example .apply").click(); //Run em all on page ready
+
+  //Dynamically resize all the text areas
   $(".json-logic-example textarea").textareaAutoSize();
+
+  $("body").on("click", ".json-logic-example .turn", function(event){
+    $(event.target).closest(".json-logic-example")
+      .toggleClass("horizontal")
+      .find("textarea").trigger("input");
+  });
+
+
+  $(".json-logic-example").each(function(){
+    //Some items *become* multi-line when forced horiz. So set everyone horiz, then undo those that don't make sense.
+    var $example = $(this).addClass("horizontal");
+
+    //Are any text areas multi-line?
+    var $multiline = $example.find("textarea")
+      .trigger("input") //Notify autosize
+      .filter(function(){
+        //Right this second, a single is 22px, give me some headroom to restyle
+        return $(this).height() > 30;
+      });
+
+    if($multiline.length){
+      $example.removeClass("horizontal");
+      $example.find("textarea").trigger("input");
+    }
+  });
 });

@@ -45,24 +45,19 @@ Retrieve data from the provided data object.
 
 Most JsonLogic rules operate on data supplied at run-time.  Typically this data is an object, in which case the argument to `var` is a property name.
 
-{% include example.html rule='{ "var" : ["a"] }' data='
-{
-  "a" : 1,
-  "b" : 2
-}
-' %}
+{% include example.html rule='{ "var" : ["a"] }' data=' { "a":1, "b":2 }' %}
 
 Note, every operation will be demonstrated with a live example box. Feel free to edit the logic and the data and see what happens when you apply your change!  Here's what the example above would look like in JavaScript:
 
 ```js
 jsonLogic.apply(
   { "var" : ["a"] }, // Logic
-  { a : 1, b : 2 }   // Data
+  { "a":1, "b":2 }   // Data
 );
 // 1
 ```
 
-If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) to skip the array around single values :
+If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) to skip the array around single arguments :
 
 {% include example.html rule='{"var":"a"}' data='{"a":1,"b":2}'%}
 
@@ -86,88 +81,50 @@ The key passed to var can use dot-notation to get the property of a property (to
 
 You can also use the `var` operator to access an array by numeric index:
 
-{% include example.html rule='{"var":1}' data='[ "apple", "banana", "carrot" ]'%}
+{% include example.html rule='{"var":1}' data='["zero", "one", "two"]'%}
 
 Here's a complex rule that mixes literals and data. The pie isn't ready to eat unless it's cooler than 110 degrees, *and* filled with apples.
 
-```js
-var rules = { "and" : [
+{% include example.html rule='{ "and" : [
   {"<" : [ { "var" : "temp" }, 110 ]},
   {"==" : [ { "var" : "pie.filling" }, "apple" ] }
-] };
-
-var data = { "temp" : 100, "pie" : { "filling" : "apple" } };
-
-jsonLogic.apply(rules, data);
-// true
-```
+] }' data='{
+  "temp" : 100,
+  "pie" : { "filling" : "apple" }
+}'%}
 
 ## `missing`
 
 Takes an array of data keys to search for (same format as `var`). Returns an array of any keys that are missing from the data object, or an empty array.
 
-```js
-jsonLogic.apply(
-  {"missing":["a", "b"]},
-  {"a":"apple", "c":"carrot"}
-);
-// [ "b" ]
-
-jsonLogic.apply(
-  {"missing":["a", "b"]},
-  {"a":"apple", "b":"banana"}
-);
-// [ ]
-```
+{% include example.html rule='{"missing":["a", "b"]}' data='{"a":"apple", "c":"carrot"}'%}
+{% include example.html rule='{"missing":["a", "b"]}' data='{"a":"apple", "b":"banana"}'%}
 
 Note, in JsonLogic, empty arrays are [falsy]({{ site.baseurl }}/truthy.html). So you can use `missing` with `if` like:
 
-```js
-jsonLogic.apply(
-  {"if":[
-    {"missing":["a", "b"]},
-    "Not enough fruit",
-    "OK to proceed"
-  ]},
-  {"a":"apple", "b":"banana"}
-);
-// "OK to proceed"
-```
+{% include example.html rule='{"if":[
+  {"missing":["a", "b"]},
+  "Not enough fruit",
+  "OK to proceed"
+]}' data='{"a":"apple", "b":"banana"}'%}
 
 ## `missing_some`
 
 Takes a minimum number of data keys that are required, and an array of keys to search for (same format as `var` or `missing`).  Returns an empty array if the minimum is met, or an array of the missing keys otherwise.
 
-```js
-jsonLogic.apply(
-  {"missing_some":[1, ["a", "b", "c"]]},
-  {"a":"apple"}
-);
-// []
-
-jsonLogic.apply(
-  {"missing_some":[2, ["a", "b", "c"]]},
-  {"a":"apple"}
-);
-// ["b", "c"]
-```
+{% include example.html rule='{"missing_some":[1, ["a", "b", "c"]]}' data='{"a":"apple"}'%}
+{% include example.html rule='{"missing_some":[2, ["a", "b", "c"]]}' data='{"a":"apple"}'%}
 
 This is useful if you're using `missing` to track required fields, but occasionally need to require N of M fields.
 
-```js
-jsonLogic.apply(
-  {"if" :[
+{% include example.html rule='{"if" :[
     {"merge": [
       {"missing":["first_name", "last_name"]},
-      {"missing_some":[1, ["cell_phone", "home_phone"] ]},
+      {"missing_some":[1, ["cell_phone", "home_phone"] ]}
     ]},
     "We require first name, last name, and one phone number.",
     "OK to proceed"
-  ]},
-  {"first_name":"Bruce", "last_name":"Wayne"}
-);
-// "We require first name, last name, and one phone number.",
-```
+  ]}' data='{"first_name":"Bruce", "last_name":"Wayne"}'%}
 
 
 # Logic and Boolean Operations
@@ -175,130 +132,73 @@ jsonLogic.apply(
 ## `if`
 The `if` statement typically takes 3 arguments: a condition (if), what to do if it's true (then), and what to do if it's false (else), like:
 
-```js
-{"if" : [ true, "yes", "no" ]}
-// "yes"
-
-{"if" : [ false, "yes", "no" ]}
-// "no"
-```
+{% include example.html rule='{"if" : [ true, "yes", "no" ]}' %}
+{% include example.html rule='{"if" : [ false, "yes", "no" ]}' %}
 
 If can also take more than 3 arguments, and will pair up arguments like if/then elseif/then elseif/then else. Like:
 
-```js
-{"if" : [
+{% include example.html rule='{"if" : [
   {"<": [{"var":"temp"}, 0] }, "freezing",
   {"<": [{"var":"temp"}, 100] }, "liquid",
   "gas"
-]}
-```
+]}' data='{"temp":55}'%}
 
 See the [Fizz Buzz implementation]({{site.base_url}}/fizzbuzz.html) for a larger example.
 
 ## `==`
 Tests equality, with type coercion. Requires two arguments.
 
-```js
-{"==" : [1, 1]}
-// true
-
-{"==" : [1, "1"]}
-// true
-
-{"==" : [0, false]}
-// true
-```
+{% include example.html rule='{"==" : [1, 1]}' %}
+{% include example.html rule='{"==" : [1, "1"]}' %}
+{% include example.html rule='{"==" : [0, false]}' %}
 
 ## `===`
 Tests strict equality. Requires two arguments.
 
-```js
-{"===" : [1, 1]}
-// true
-
-{"===" : [1, "1"]}
-// false
-```
+{% include example.html rule='{"===" : [1, 1]}' %}
+{% include example.html rule='{"===" : [1, "1"]}' %}
 
 ## `!=`
 Tests not-equal, with type coercion.
 
-```js
-{"!=" : [1, 2]}
-// true
-
-{"!=" : [1, "1"]}
-// false
-```
+{% include example.html rule='{"!=" : [1, 2]}' %}
+{% include example.html rule='{"!=" : [1, "1"]}' %}
 
 ## `!==`
 Tests strict not-equal.
 
-```js
-{"!==" : [1, 2]}
-// true
-
-{"!==" : [1, "1"]}
-// true
-```
+{% include example.html rule='{"!==" : [1, 2]}' %}
+{% include example.html rule='{"!==" : [1, "1"]}' %}
 
 ## `!`
 Logical negation ("not"). Takes just one argument.
 
-```js
-{"!": [true]}
-// false
-```
+{% include example.html rule='{"!": [true]}' %}
 
 *Note:* unary operators can also take a single, non array argument:
-
-```js
-{"!": true}
-// false
-```
-
+{% include example.html rule='{"!": true}' %}
 
 ## `or`
 `or` can be used for simple boolean tests, with 1 or more arguments.
 
-```js
-{"or": [true, false]}
-// true
-```
+{% include example.html rule='{"or": [true, false]}' %}
 
 At a more sophisticated level, `or` returns the first [truthy]({{ site.baseurl }}/truthy.html) argument, or the last argument.
 
-```js
-{"or": [false, true]}
-// true
-
-{"or": [false, "apple"]}
-// "apple"
-
-{"or": [false, null, "apple"]}
-// "apple"
-```
+{% include example.html rule='{"or":[false, true]}' %}
+{% include example.html rule='{"or":[false, "a"]}' %}
+{% include example.html rule='{"or":[false, 0, "a"]}' %}
 
 ## `and`
 `and` can be used for simple boolean tests, with 1 or more arguments.
 
-```js
-{"and": [true, true]}
-// true
-
-{"and": [true, true, true, false]}
-// false
-```
+{% include example.html rule='{"and": [true, true]}' %}
+{% include example.html rule='{"and": [true, false]}' %}
 
 At a more sophisticated level, `and` returns the first [falsy]({{ site.baseurl }}/truthy.html) argument, or the last argument.
 
-```js
-{"and": [true, "apple", false]}
-// false
-
-{"and": [true, "apple", 3.14]}
-// 3.14
-```
+{% include example.html rule='{"and":[true,"a",3]}' %}
+{% include example.html rule='{"and": [true,"",3]}' %}
 
 # Numeric Operations
 
@@ -306,31 +206,17 @@ At a more sophisticated level, `and` returns the first [falsy]({{ site.baseurl }
 
 Greater than:
 
-```js
-{">" : [2, 1]}
-// true
-```
+{% include example.html rule='{">" : [2, 1]}' %}
 
 Greater than or equal to:
-
-```js
-{">=" : [1, 1]}
-// true
-```
+{% include example.html rule='{">=" : [1, 1]}' %}
 
 Less than:
+{% include example.html rule='{"<" : [1, 2]}' %}
 
-```js
-{"<" : [1, 2]}
-// true
-```
 
 Less than or equal to:
-
-```js
-{"<=" : [1, 1]}
-// true
-```
+{% include example.html rule='{"<=" : [1, 1]}' %}
 
 ## Between
 
@@ -338,105 +224,54 @@ You can use a special case of `<` and `<=` to test that one value is between two
 
 Between exclusive:
 
-```js
-{"<" : [1, 2, 3]}
-// true
-
-{"<" : [1, 1, 3]}
-// false, middle can't be equal to left or right
-
-{"<" : [1, 4, 3]}
-// false
-```
+{% include example.html rule='{"<" : [1, 2, 3]}' %}
+{% include example.html rule='{"<" : [1, 1, 3]}' %}
+{% include example.html rule='{"<" : [1, 4, 3]}' %}
 
 Between inclusive:
 
-```js
-{"<=" : [1, 2, 3]}
-// true
-
-{"<=" : [1, 1, 3]}
-// true
-
-{"<=" : [1, 4, 3]}
-// false
-```
+{% include example.html rule='{"<=" : [1, 2, 3]}' %}
+{% include example.html rule='{"<=" : [1, 1, 3]}' %}
+{% include example.html rule='{"<=" : [1, 4, 3]}' %}
 
 This is most useful with data:
 
-```js
-liquid = jsonLogic.apply(
-  { "<": [0, {"var":"temp"}, 100]}, //Is the temp between 0 and 100 degrees?
-  {"temp" : 37}
-);
-```
+{% include example.html rule='{ "<": [0, {"var":"temp"}, 100]}' data='{"temp" : 37}' %}
 
 ## `max` and `min`
 
 Return the maximum or minimum from a list of values.
-
-```js
-{"max":[1,2,3]}
-// 3
-
-{"min":[1,2,3]}
-// 1
-```
-
+{% include example.html rule='{"max":[1,2,3]}' %}
+{% include example.html rule='{"min":[1,2,3]}' %}
 
 ## Arithmetic, `+` `-` `*` `/`
 
 Addition, subtraction, multiplication, and division.
 
-```js
-{"+":[1,1]}
-// 2
-
-{"*":[2,3]}
-// 6
-
-{"-":[3,2]}
-// 1
-
-{"/":[2,4]}
-// 0.5
-```
+{% include example.html rule='{"+":[4,2]}' %}
+{% include example.html rule='{"-":[4,2]}' %}
+{% include example.html rule='{"*":[4,2]}' %}
+{% include example.html rule='{"/":[4,2]}' %}
 
 Because addition and multiplication are associative, they happily take as many args as you want:
 
-```js
-{"+":[1,1,1,1,1]}
-// 5
-
-{"*":[2,2,2,2,2]}
-// 32
-```
+{% include example.html rule='{"+":[2,2,2,2,2]}' %}
+{% include example.html rule='{"*":[2,2,2,2,2]}' %}
 
 Passing just one argument to `-` returns its arithmetic negative (additive inverse).
 
-```js
-{"-":[2]}
-// -2
-
-{"-":[-2]}
-// 2
-```
+{% include example.html rule='{"-": 2 }' %}
+{% include example.html rule='{"-": -2 }' %}
 
 Passing just one argument to `+` casts it to a number.
 
-```js
-{"+" : "0"}
-// 0
-```
+{% include example.html rule='{"+" : "3.14"}' %}
 
 ## `%`
 
 [Modulo](https://en.wikipedia.org/wiki/Modulo_operation).  Finds the remainder after the first argument is divided by the second argument.
 
-```js
-{"%": [101,2]}
-// 1
-```
+{% include example.html rule='{"%": [101,2]}' %}
 
 This can be paired with a loop in the language that parses JsonLogic to create stripes or other effects.  
 
@@ -461,39 +296,30 @@ for(var i = 1; i <= 4 ; i++){
 
 Takes one or more arrays, and merges them into one array. If arguments aren't arrays, they get cast to arrays.
 
-```js
-{"merge":[ [1,2], [3,4] ]}
-// [1,2,3,4]
+{% include example.html rule='{"merge":[ [1,2], [3,4] ]}' %}
+{% include example.html rule='{"merge":[ 1, 2, [3,4] ]}' %}
 
-{"merge":[ 1, 2, [3,4] ]}
-// [1,2,3,4]
-```
+Merge can be especially useful when defining complex `missing` rules, like which fields are required in a document. For example, this vehicle paperwork always requires the car's VIN, but only needs the APR and term if you're financing.
 
-Merge can be especially useful when defining complex `missing` rules, like which fields are required in a document. For example, the this vehicle paperwork always requires the car's VIN, but only needs the APR and term if you're financing.
-
-```js
-var missing = {"missing" :
+{% include example.html rule='{"missing" :
   { "merge" : [
     "vin",
     {"if": [{"var":"financing"}, ["apr", "term"], [] ]}
   ]}
-};
+}' data='{"financing":true}' %}
 
-jsonLogic.apply(rule, {"financing":true});
-// ["vin","apr","term"]
-
-jsonLogic.apply(rule, {"financing":false});
-// ["vin"]
-```
+{% include example.html rule='{"missing" :
+  { "merge" : [
+    "vin",
+    {"if": [{"var":"financing"}, ["apr", "term"], [] ]}
+  ]}
+}' data='{"financing":false}' %}
 
 ## `in`
 
 If the second argument is an array, tests that the first argument is a member of the array:
 
-```js
-{"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}
-// true
-```
+{% include example.html rule='{"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}' %}
 
 
 # String Operations
@@ -502,26 +328,14 @@ If the second argument is an array, tests that the first argument is a member of
 
 If the second argument is a string, tests that the first argument is a substring:
 
-```js
-{"in":["Spring", "Springfield"]}
-// true
-```
+{% include example.html rule='{"in":["Spring", "Springfield"]}' %}
 
 ## `cat`
 
 Concatenate all the supplied arguments. Note that this is not a join or implode operation, there is no "glue" string.
 
-```js
-{"cat": ["I love", " pie"]}
-// "I love pie"
-
-jsonLogic.apply(
-  {"cat": ["I love ", {"var":"filling"} " pie"]}, // rule
-  {"filling":"apple", "temp":110}                 // data
-);
-// "I love apple pie"
-```
-
+{% include example.html rule='{"cat": ["I love", " pie"]}' %}
+{% include example.html rule='{"cat": ["I love ", {"var":"filling"}, " pie"]}' data='{"filling":"apple", "temp":110}' %}
 
 # Miscellaneous
 
@@ -531,8 +345,5 @@ Logs the first value to console, then passes it through unmodified.
 
 This can be especially helpful when debugging a large rule.
 
-```js
-{"log":"apple"}
-// Console receives "apple"
-// Command returns "apple"
-```
+{% include example.html rule='{"log":"apple"}' %}
+(Check your developer console!)
