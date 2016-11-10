@@ -1,0 +1,64 @@
+---
+# Front matter comment to ensure Jekyll properly reads file.
+---
+.json-logic-example{
+  border:1px solid #777777;
+  width:100%;
+  margin-bottom:1em;
+  background-color:white;
+
+  td{
+    border:none;
+    vertical-align:top;
+    text-align:left;
+  }
+  td::before{
+    display:block;
+    padding:1px 5px;
+    background-color:#777777;
+    color:white;
+  }
+  .logic::before{
+    content:"Logic";
+  }
+  .data::before{
+    content:"Data";
+    margin-left:1px;
+  }
+  .result::before{
+    content:"Result";
+  }
+  textarea{
+    font-family:"Source Code Pro", Consolas, fixed-width;
+    box-sizing: border-box;
+    min-height: 20px;
+    overflow-x: hidden;
+    border:none;
+    resize:none; //because jQuery is doing it for us, I'm not a jerk
+  }
+  .error{
+  	border:2px solid #660000;
+  	background-color:#ffa0a0;
+  	color:#880000;
+    padding:1px 5px;
+  }
+  .action{
+    vertical-align:middle;
+  }
+  button{
+    border-radius:10px;
+    border:1px solid #2879d0;
+    color:#2879d0;
+    font-weight:bold;
+    background-color:#b9d5f2;
+    padding:2px 10px;
+  }
+
+  .bam {
+    animation-name: bam;
+    animation-duration: 2s;
+  }
+
+  @keyframes bam { from {background-color: #a0ffa0;} to {background-color: white;} }
+
+}

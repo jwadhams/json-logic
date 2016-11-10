@@ -45,9 +45,18 @@ Retrieve data from the provided data object.
 
 Most JsonLogic rules operate on data supplied at run-time.  Typically this data is an object, in which case the argument to `var` is a property name.
 
+{% include example.html rule='{ "var" : ["a"] }' data='
+{
+  "a" : 1,
+  "b" : 2
+}
+' %}
+
+Note, every operation will be demonstrated with a live example box. Feel free to edit the logic and the data and see what happens when you apply your change!  Here's what the example above would look like in JavaScript:
+
 ```js
 jsonLogic.apply(
-  { "var" : ["a"] }, // Rule
+  { "var" : ["a"] }, // Logic
   { a : 1, b : 2 }   // Data
 );
 // 1
@@ -55,47 +64,29 @@ jsonLogic.apply(
 
 If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) to skip the array around single values :
 
-```js
-jsonLogic.apply(
-  { "var" : "a" },
-  { a : 1, b : 2 }
-);
-// 1
-```
+{% include example.html rule='{"var":"a"}' data='{"a":1,"b":2}'%}
 
 
 You can supply a default, as the second argument, for values that might be missing in the data object.  (Note, the skip-the-array sugar won't work here because you're passing two arguments to `var`):
 
-```js
-jsonLogic.apply(
-  { "var" : ["z", 26] }, // Rule
-  { a : 1, b : 2 }   // Data
-);
-// 26
-```
+{% include example.html rule='{"var":["z", 26]}' data='{"a":1,"b":2}'%}
 
 The key passed to var can use dot-notation to get the property of a property (to any depth you need):
 
-```js
-jsonLogic.apply(
-  { "var" : "champ.name" },
-  {
-    champ : { name : "Fezzig", height : 223 },
-    challenger : { name : "Dread Pirate Roberts", height : 183 }
+{% include example.html rule='{"var" : "champ.name"}' data='{
+  "champ" : {
+    "name" : "Fezzig",
+    "height" : 223
+  },
+  "challenger" : {
+    "name" : "Dread Pirate Roberts",
+    "height" : 183
   }
-);
-// "Fezzig"
-```
+}'%}
 
 You can also use the `var` operator to access an array by numeric index:
 
-```js
-jsonLogic.apply(
-  {"var" : 1 },
-  [ "apple", "banana", "carrot" ]
-);
-// "banana"
-```
+{% include example.html rule='{"var":1}' data='[ "apple", "banana", "carrot" ]'%}
 
 Here's a complex rule that mixes literals and data. The pie isn't ready to eat unless it's cooler than 110 degrees, *and* filled with apples.
 

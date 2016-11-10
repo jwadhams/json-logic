@@ -56,8 +56,6 @@ layout: default
 
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://rawgit.com/jwadhams/json-logic-js/master/logic.js"></script>
 <script>
 	function lint(element){
 		var $element = $(element),
@@ -82,7 +80,7 @@ layout: default
 			return true;
 		}catch(e){
 			$message.removeClass("alert-success").addClass("alert-danger").text(e.message).fadeIn();
-			return false;	
+			return false;
 		}
 
 	}
@@ -111,4 +109,3 @@ layout: default
 
 
 </script>
-

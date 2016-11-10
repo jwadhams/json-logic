@@ -1,0 +1,14 @@
+<table class="json-logic-example">
+  <tr>
+    <td class="logic">
+      <textarea class="logic">{{ include.rule | strip }}</textarea>
+    </td>
+    <td class="data">
+      <textarea>{{ include.data | default:'null' strip }}</textarea>
+    </td>
+    <td class="action"><button class="apply btn btn-primary">Apply</button></td>
+    <td class="result">
+      <textarea disabled></textarea>
+    </td>
+  </tr>
+</table>
