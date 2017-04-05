@@ -57,7 +57,7 @@ If your rule needs to call a method on an object, you can use the built-in `meth
 ```js
 jsonLogic.apply(
   { "if" : [
-    //Open weekends, 10:00am to 4:50pm
+    //Open weekends, 10:00am to 4:59pm
     {"and":[
       {"in":[{"method" : [{"var":"today"}, "getDay"]}, [0,6]]},
       {"<=": [ 10, {"method" : [{"var":"today"}, "getHours"]}, 16 ]}
