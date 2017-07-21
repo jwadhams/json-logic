@@ -296,7 +296,7 @@ for(var i = 1; i <= 4 ; i++){
 ## `all`, `none`, and `some`
 
 <div style="border:1px solid #440000; background:#FFbbbb;padding:10px;margin-bottom:1em;">
-This functionality is still considered experimental in the JavaScript implementation, with tag `1.1.3-sets`
+`all`, `none`, and `some` are experimental in the JavaScript implementation, with tag `1.1.3-sets`.  They are stable in the PHP implementation starting at `1.3.8`
 </div>
 
 These operations take an array, and perform a test on each member of that array.
