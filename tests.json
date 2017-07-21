@@ -232,9 +232,12 @@
 	[ {"and":[{"<":[{"var":"temp"},110]},{"==":[{"var":"pie.filling"},"apple"]}]},{"temp":100,"pie":{"filling":"apple"}},true ],
 	[ {"var":[{"?:":[{"<":[{"var":"temp"},110]},"pie.filling","pie.eta"]}]},{"temp":100,"pie":{"filling":"apple","eta":"60s"}},"apple" ],
 	[ {"in":[{"var":"filling"},["apple","cherry"]]},{"filling":"apple"},true ],
-    [ {"var":"a.b.c"}, null, null ],
-    [ {"var":"a.b.c"}, {"a":null}, null ],
-    [ {"var":"a.b.c"}, {"a":{"b":null}}, null ],
+  [ {"var":"a.b.c"}, null, null ],
+  [ {"var":"a.b.c"}, {"a":null}, null ],
+  [ {"var":"a.b.c"}, {"a":{"b":null}}, null ],
+  [ {"var":""}, 1, 1 ],
+  [ {"var":null}, 1, 1 ],
+  [ {"var":[]}, 1, 1 ],
 
 	"Missing",
 	[{"missing":[]}, null, []],
@@ -283,6 +286,132 @@
 		{"missing":{"merge":[ "vin", {"if": [{"var":"financing"}, ["apr"], [] ]} ]} },
 		{"financing":false},
 		["vin"]
-	]
+	],
 
+  "All, none, and some",
+  [
+    {"all":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    true
+  ],
+  [
+    {"all":[{"var":"integers"}, {"==":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    false
+  ],
+  [
+    {"all":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    false
+  ],
+  [
+    {"all":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[]},
+    false
+  ],
+  [
+    {"all":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    true
+  ],
+  [
+    {"all":[ {"var":"items"}, {">":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    false
+  ],
+  [
+    {"all":[ {"var":"items"}, {"<":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    false
+  ],
+  [
+    {"all":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[]},
+    false
+  ],
+
+
+  [
+    {"none":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    false
+  ],
+  [
+    {"none":[{"var":"integers"}, {"==":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    false
+  ],
+  [
+    {"none":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    true
+  ],
+  [
+    {"none":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[]},
+    true
+  ],
+  [
+    {"none":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    false
+  ],
+  [
+    {"none":[ {"var":"items"}, {">":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    false
+  ],
+  [
+    {"none":[ {"var":"items"}, {"<":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    true
+  ],
+  [
+    {"none":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[]},
+    true
+  ],
+
+  [
+    {"some":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    true
+  ],
+  [
+    {"some":[{"var":"integers"}, {"==":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    true
+  ],
+  [
+    {"some":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[1,2,3]},
+    false
+  ],
+  [
+    {"some":[{"var":"integers"}, {"<":[{"var":""}, 1]}]},
+    {"integers":[]},
+    false
+  ],
+  [
+    {"some":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    true
+  ],
+  [
+    {"some":[ {"var":"items"}, {">":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    true
+  ],
+  [
+    {"some":[ {"var":"items"}, {"<":[{"var":"qty"}, 1]}]},
+    {"items":[{"qty":1,"sku":"apple"},{"qty":2,"sku":"banana"}]},
+    false
+  ],
+  [
+    {"some":[ {"var":"items"}, {">=":[{"var":"qty"}, 1]}]},
+    {"items":[]},
+    false
+  ],
+
+  "EOF"
 ]
