@@ -317,6 +317,8 @@ Or it can be useful to test an object based on its properties:
   {"filling":"apple","temp":310}
 ]}'%}
 
+Note that `none` will return `true` for an empty array, while `all` and `some` will return `false`.
+
 ## `merge`
 
 Takes one or more arrays, and merges them into one array. If arguments aren't arrays, they get cast to arrays.
