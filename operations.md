@@ -292,6 +292,24 @@ for(var i = 1; i <= 4 ; i++){
 
 # Array Operations
 
+## `all`, `none`, and `some`
+
+<div style="border:1px solid #440000; background:#FFbbbb;padding:10px;margin-bottom:1em;">
+This functionality is still considered experimental in the JavaScript implementation, with tag `1.1.3-sets`
+</div>
+
+These operations take an array, and perform a test on each member of that array.
+
+The most interesting part of these operations is that inside the test code, `var` operations are relative to the array element being tested.
+
+It can be useful to use `{"var":""}` to get the entire array element within the test.
+
+{% include example.html rule='{"all" : [ [1,2,3], {">":[{"var":""}, 0]} ]}' %}
+{% include example.html rule='{"some" : [ [-1,0,1], {">":[{"var":""}, 0]} ]}' %}
+{% include example.html rule='{"none" : [ [-3,-2,-1], {">":[{"var":""}, 0]} ]}' %}
+
+
+
 ## `merge`
 
 Takes one or more arrays, and merges them into one array. If arguments aren't arrays, they get cast to arrays.
