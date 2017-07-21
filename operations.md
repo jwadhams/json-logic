@@ -27,6 +27,7 @@ title: Supported Operations
   - [Arithmetic, `+` `-` `*` `/`](#arithmetic-----)
   - [`%`](#%25)
 - [Array Operations](#array-operations)
+  - [`all`, `none`, and `some`](#all-none-and-some)
   - [`merge`](#merge)
   - [`in`](#in)
 - [String Operations](#string-operations)
@@ -308,7 +309,13 @@ It can be useful to use `{"var":""}` to get the entire array element within the 
 {% include example.html rule='{"some" : [ [-1,0,1], {">":[{"var":""}, 0]} ]}' %}
 {% include example.html rule='{"none" : [ [-3,-2,-1], {">":[{"var":""}, 0]} ]}' %}
 
+Or it can be useful to test an object based on its properties:
 
+{% include example.html rule='{"some" : [ {"var":"pies"}, {"==":[{"var":"filling"}, "apple"]} ]}' data='{"pies":[
+  {"filling":"pumpkin","temp":110},
+  {"filling":"rhubarb","temp":210},
+  {"filling":"apple","temp":310}
+]}'%}
 
 ## `merge`
 
