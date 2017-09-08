@@ -293,6 +293,42 @@ for(var i = 1; i <= 4 ; i++){
 
 # Array Operations
 
+## `map`, `reduce`, and `filter`
+
+
+
+You can use `map` to perform an action on every member of an array. Note, that inside the logic being used to map, `var` operations are relative to the array element being worked on.
+
+{% include example.html rule='{"map":[
+  {"var":"integers"},
+  {"*":[{"var":""},2]}
+]}' data='{"integers":[1,2,3,4,5]}' %}
+
+You can use `filter` to keep only elements of the array that pass a test. Note, that inside the logic being used to map, `var` operations are relative to the array element being worked on.
+
+Also note, the returned array will have contiguous indexes starting at zero (typical for JavaScript, Python and Ruby) it will *not* preserve the source indexes (making it unlike PHP's `array_filter`).
+
+{% include example.html rule='{"filter":[
+  {"var":"integers"},
+  {"%":[{"var":""},2]}
+]}' data='{"integers":[1,2,3,4,5]}' %}
+
+You can use `reduce` to combine all the elements in an array into a single value, like adding up a list of numbers. Note, that inside the logic being used to reduce, `var` operations only have access to an object like:
+
+```js
+{
+    "current" : // this element of the array,
+    "accumulator" : // progress so far, or the initial value
+}
+```
+
+{% include example.html rule='{"reduce":[
+    {"var":"integers"},
+    {"+":[{"var":"current"}, {"var":"accumulator"}]},
+    0
+]}' data='{"integers":[1,2,3,4,5]}' %}
+
+
 ## `all`, `none`, and `some`
 
 <div style="border:1px solid #440000; background:#FFbbbb;padding:10px;margin-bottom:1em;">
