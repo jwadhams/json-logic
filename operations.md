@@ -5,8 +5,6 @@ title: Supported Operations
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
 - [Accessing Data](#accessing-data)
   - [`var`](#var)
   - [`missing`](#missing)
@@ -27,6 +25,7 @@ title: Supported Operations
   - [Arithmetic, `+` `-` `*` `/`](#arithmetic-----)
   - [`%`](#%25)
 - [Array Operations](#array-operations)
+  - [`map`, `reduce`, and `filter`](#map-reduce-and-filter)
   - [`all`, `none`, and `some`](#all-none-and-some)
   - [`merge`](#merge)
   - [`in`](#in)
@@ -93,6 +92,13 @@ Here's a complex rule that mixes literals and data. The pie isn't ready to eat u
   "temp" : 100,
   "pie" : { "filling" : "apple" }
 }'%}
+
+You can also use `var` with an empty string to get the entire data object -- which is really useful in `map`, `filter`, and `reduce` rules.
+
+{% include example.html rule='{ "cat" : [
+    "Hello, ",
+    {"var":""}
+] }' data='"Dolly"'%}
 
 ## `missing`
 
@@ -295,8 +301,6 @@ for(var i = 1; i <= 4 ; i++){
 
 ## `map`, `reduce`, and `filter`
 
-
-
 You can use `map` to perform an action on every member of an array. Note, that inside the logic being used to map, `var` operations are relative to the array element being worked on.
 
 {% include example.html rule='{"map":[
@@ -330,10 +334,6 @@ You can use `reduce` to combine all the elements in an array into a single value
 
 
 ## `all`, `none`, and `some`
-
-<div style="border:1px solid #440000; background:#FFbbbb;padding:10px;margin-bottom:1em;">
-`all`, `none`, and `some` are experimental in the JavaScript implementation, with tag `1.1.3-sets`.  They are stable in the PHP implementation starting at `1.3.8`
-</div>
 
 These operations take an array, and perform a test on each member of that array.
 

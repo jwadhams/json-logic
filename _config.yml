@@ -7,4 +7,4 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-gems: [ jekyll-sitemap ]
+plugins: [ jekyll-sitemap ]
