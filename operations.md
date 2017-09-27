@@ -16,6 +16,7 @@ title: Supported Operations
   - [`!=`](#)
   - [`!==`](#)
   - [`!`](#)
+  - [`!!`](#)
   - [`or`](#or)
   - [`and`](#and)
 - [Numeric Operations](#numeric-operations)
@@ -184,6 +185,14 @@ Logical negation ("not"). Takes just one argument.
 
 *Note:* unary operators can also take a single, non array argument:
 {% include example.html rule='{"!": true}' %}
+
+## `!!`
+Double negation, or "cast to a boolean." Takes a single argument.
+
+Note that JsonLogic has its own spec for [truthy]({{ site.baseurl }}/truthy.html) to ensure that rules will run consistently across interpreters. (e.g., empty arrays are falsy, string "0" is truthy.)
+
+{% include example.html rule='{"!!": [ [] ] }' %}
+{% include example.html rule='{"!!": ["0"] }' %}
 
 ## `or`
 `or` can be used for simple boolean tests, with 1 or more arguments.
