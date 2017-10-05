@@ -110,6 +110,16 @@
     [ {"/":[2,4]}, {}, 0.5 ],
     [ {"/":["1",1]}, {}, 1 ],
 
+    "Substring",
+    [{"substr":["jsonlogic", 4]}, null, "logic"],
+    [{"substr":["jsonlogic", -5]}, null, "logic"],
+    [{"substr":["jsonlogic", 0, 1]}, null, "j"],
+    [{"substr":["jsonlogic", -1, 1]}, null, "c"],
+    [{"substr":["jsonlogic", 4, 5]}, null, "logic"],
+    [{"substr":["jsonlogic", -5, 5]}, null, "logic"],
+    [{"substr":["jsonlogic", -5, -2]}, null, "log"],
+    [{"substr":["jsonlogic", 1, -5]}, null, "son"],
+
     "Merge arrays",
     [{"merge":[]}, null, []],
     [{"merge":[[1]]}, null, [1]],
@@ -288,7 +298,7 @@
         ["vin"]
     ],
 
-    "Filter, map, reduce",
+    "Filter, map, all, none, and some",
     [
         {"filter":[{"var":"integers"}, true]},
         {"integers":[1,2,3]},
@@ -380,7 +390,7 @@
         6
     ],
 
-    "all, none, and some",
+
     [
         {"all":[{"var":"integers"}, {">=":[{"var":""}, 1]}]},
         {"integers":[1,2,3]},

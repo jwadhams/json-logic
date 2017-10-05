@@ -33,6 +33,7 @@ title: Supported Operations
 - [String Operations](#string-operations)
   - [`in`](#in-1)
   - [`cat`](#cat)
+  - [`substr`](#substr)
 - [Miscellaneous](#miscellaneous)
   - [`log`](#log)
 
@@ -408,6 +409,26 @@ Concatenate all the supplied arguments. Note that this is not a join or implode 
 
 {% include example.html rule='{"cat": ["I love", " pie"]}' %}
 {% include example.html rule='{"cat": ["I love ", {"var":"filling"}, " pie"]}' data='{"filling":"apple", "temp":110}' %}
+
+## `substr`
+
+Get a portion of a string.
+
+Give a positive start position to return everything beginning at that index. (Indexes of course start at zero.)
+
+{% include example.html rule='{"substr": ["jsonlogic", 4]}' %}
+
+Give a negative start position to work backwards from the end of the string, then return everything.
+
+{% include example.html rule='{"substr": ["jsonlogic", -5]}' %}
+
+Give a positive length to express how many characters to return.
+
+{% include example.html rule='{"substr": ["jsonlogic", 1, 3]}' %}
+
+Give a negative length to stop that many characters before the end.
+
+{% include example.html rule='{"substr": ["jsonlogic", 4, -2]}' %}
 
 # Miscellaneous
 
