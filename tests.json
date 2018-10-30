@@ -217,6 +217,10 @@
     [{"if":[true, "apple", true, "banana", false, "carrot", "date"]}, null, "apple"],
     [{"if":[true, "apple", true, "banana", true, "carrot", "date"]}, null, "apple"],
 
+    "Arrays with logic",
+    [[1, {"var": "x"}, 3], {"x": 2}, [1, 2, 3]],
+    [{"if": [{"var": "x"}, [{"var": "y"}], 99]}, {"x": true, "y": 42}, [42]],
+
     "# Compound Tests",
     [ {"and":[{">":[3,1]},true]}, {}, true ],
     [ {"and":[{">":[3,1]},false]}, {}, false ],
