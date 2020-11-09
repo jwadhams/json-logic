@@ -52,43 +52,7 @@ jsonLogic.apply({"Math.log":1739274941520497700}); //Returns 42
 
 ## Calling methods on objects
 
-If your rule needs to call a method on an object, you can use the built-in `method` operation. For example, this code would let you represent a store's business hours in a JsonLogic rule:
-
-```js
-jsonLogic.apply(
-  { "if" : [
-    //Open weekends, 10:00am to 4:59pm
-    {"and":[
-      {"in":[{"method" : [{"var":"today"}, "getDay"]}, [0,6]]},
-      {"<=": [ 10, {"method" : [{"var":"today"}, "getHours"]}, 16 ]}
-    ]},
-    "Open",
-
-    //Open weekdays, 9:00am to 5:59pm
-    {"and":[
-      {"in":[{"method" : [{"var":"today"}, "getDay"]}, [1,2,3,4,5]]},
-      {"<=": [ 9, {"method" : [{"var":"today"}, "getHours"]}, 17 ]}
-    ]},
-    "Open",
-
-    //Else, closed
-    "Closed"
-  ]},
-  {today : (new Date() )}
-);
-```
-
-You can also pass an array of arguments into the method:
-
-```js
-jsonLogic.apply( {"method":[
-    "automaton", //object (String)
-    "slice", //method
-    [ 2, 8 ] //array of arguments
-  ]}
-); //Returns "tomato"
-```
-
+The ability to call an arbitrary method on an object led to a [prototype pollution advisory](https://www.npmjs.com/advisories/1542) and has been removed as of json-logic-js 2.0.0. I'd strongly recommend you convert object-oriented method calls into small simple functions like Math.abs above, when importing them into JsonLogic.
 
 ## Limitations
 
