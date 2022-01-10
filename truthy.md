@@ -5,7 +5,7 @@ title: Truthy and Falsy
 
 # {{ page.title }}
 
-Because JsonLogic rules need to return the same results when executed by different languages, it carries it's own specification on what is truthy and what is falsy.
+Because JsonLogic rules need to return the same results when executed by different languages, it carries its own specification on what is truthy and what is falsy.
 
 For example, in PHP, empty arrays are falsy, but in JavaScript arrays are always truthy.  It turns out having a dead simple way to differentiate an empty array from a non-empty one is really really useful with the `missing` operation, so JsonLogic agrees with PHP&mdash;in that case.
 
