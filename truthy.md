@@ -17,6 +17,8 @@ Here's a quick list, backed up by the shared unit tests, of what values should b
  `1`, `-1`, etc | any non-zero number | `true` 
  `[]` | empty array | `false` 
  `[1,2]` | any non-empty array | `true` 
+ `{}` | empty object | `false` 
+ `{"foo": "bar"}` | any non-empty object | `true` 
  `""` | empty string | `false` 
  `"anything"` | any non-empty string | `true`
  `"0"` | string zero | `true`
