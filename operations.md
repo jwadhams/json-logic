@@ -318,7 +318,7 @@ You can use `map` to perform an action on every member of an array. Note, that i
   {"*":[{"var":""},2]}
 ]}' data='{"integers":[1,2,3,4,5]}' %}
 
-You can use `filter` to keep only elements of the array that pass a test. Note, that inside the logic being used to map, `var` operations are relative to the array element being worked on.
+You can use `filter` to keep only elements of the array that pass a test. Note, that inside the logic being used to filter, `var` operations are relative to the array element being worked on.
 
 Also note, the returned array will have contiguous indexes starting at zero (typical for JavaScript, Python and Ruby) it will *not* preserve the source indexes (making it unlike PHP's `array_filter`).
 
