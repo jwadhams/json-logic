@@ -8,6 +8,9 @@
     [ null, {}, null ],
     [ ["a","b"], {}, ["a","b"] ],
 
+    "# Empty rule",
+    [ {}, {}, {} ],
+
     "# Single operator tests",
     [ {"==":[1,1]}, {}, true ],
     [ {"==":[1,"1"]}, {}, true ],
