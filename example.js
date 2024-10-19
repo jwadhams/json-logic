@@ -58,7 +58,13 @@ $(function(){
   $(".json-logic-example .apply").click(); //Run em all on page ready
 
   //Dynamically resize all the text areas
-  $(".json-logic-example textarea").textareaAutoSize();
+  $(".json-logic-example textarea").each(function () {
+    this.style.height = this.scrollHeight + "px";
+    this.style.overflowY = "hidden";
+  }).on("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+  });
 
   $("body").on("click", ".json-logic-example .turn", function(event){
     $(event.target).closest(".json-logic-example")
